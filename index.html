@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiswaGuru++ | Temukan Guru Terbaik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        dark: '#1F2937',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box {
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .subject-tag {
+            transition: all 0.3s ease;
+        }
+        
+        .subject-tag:hover {
+            background-color: #4F46E5;
+            color: white;
+        }
+        
+        .rating-stars {
+            color: #F59E0B;
+        }
+        
+        .hero-pattern {
+            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="bg-primary p-2 rounded-lg mr-3">
+                    <i class="fas fa-chalkboard-teacher text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Siswa<span class="text-primary">Guru</span><span class="text-secondary">++</span></h1>
+            </div>
+            
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#" class="text-gray-600 hover:text-primary font-medium">Beranda</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary font-medium">Guru</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary font-medium">Mata Pelajaran</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary font-medium">Tentang</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary font-medium">Kontak</a></li>
+                </ul>
+            </nav>
+            
+            <div class="flex items-center">
+                <button class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition duration-300 hidden md:block">
+                    <i class="fas fa-user-plus mr-2"></i>Daftar Guru
+                </button>
+                <button class="ml-4 bg-light text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition duration-300 hidden md:block">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Masuk
+                </button>
+                <button class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Temukan Guru Terbaik untuk Kebutuhan Belajarmu</h1>
+                <p class="text-lg text-gray-600 mb-10">SiswaGuru++ menghubungkan siswa dengan guru profesional di berbagai bidang untuk pembelajaran yang efektif dan menyenangkan.</p>
+                
+                <!-- Search Box -->
+                <div class="search-box bg-white rounded-2xl p-2 shadow-xl">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="flex-1 relative">
+                            <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
+                            <input type="text" id="searchInput" placeholder="Cari guru berdasarkan nama, mata pelajaran, atau lokasi..." class="w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <button id="searchButton" class="mt-4 md:mt-0 md:ml-4 bg-primary hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300">
+                            <i class="fas fa-search mr-2"></i>Cari Guru
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-4 flex flex-wrap justify-center gap-2">
+                    <span class="text-gray-600">Cari cepat:</span>
+                    <button class="subject-tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Matematika</button>
+                    <button class="subject-tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Fisika</button>
+                    <button class="subject-tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Bahasa Inggris</button>
+                    <button class="subject-tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Kimia</button>
+                    <button class="subject-tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Biologi</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Teachers -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Guru Terpopuler</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Guru-guru terbaik dengan rating tinggi dan pengalaman mengajar yang luas</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="teachersContainer">
+                <!-- Teacher cards will be populated here -->
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="bg-light text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition duration-300">
+                    Lihat Semua Guru <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Cara Kerja SiswaGuru++</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Temukan guru sesuai kebutuhanmu dalam 3 langkah mudah</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-search text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Cari Guru</h3>
+                    <p class="text-gray-600">Cari guru berdasarkan mata pelajaran, lokasi, atau spesialisasi yang kamu butuhkan</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-check text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Pilih Guru</h3>
+                    <p class="text-gray-600">Lihat profil, rating, dan ulasan guru untuk menemukan yang paling sesuai</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-indigo-600 bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-calendar-check text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Mulai Belajar</h3>
+                    <p class="text-gray-600">Atur jadwal dan mulai sesi belajar dengan guru pilihanmu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Apa Kata Pengguna</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Pengalaman nyata dari siswa dan orang tua yang menggunakan SiswaGuru++</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Budi Santoso</h4>
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Berhasil meningkatkan nilai matematika saya dari 70 menjadi 90 dalam 2 bulan! Guru yang sangat sabar dan mengajar dengan metode yang mudah dimengerti."</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Siti Rahayu</h4>
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Guru bahasa Inggris dari SiswaGuru++ membantu saya meningkatkan kemampuan speaking dengan cepat. Sekarang saya lebih percaya diri berbicara bahasa Inggris."</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Dewi Anggraeni</h4>
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Anak saya yang tadinya tidak suka fisika sekarang menjadi sangat antusias belajar. Metode mengajar yang menyenangkan dan banyak contoh aplikasi nyata."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary p-2 rounded-lg mr-3">
+                            <i class="fas fa-chalkboard-teacher text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold">Siswa<span class="text-primary">Guru</span><span class="text-secondary">++</span></h2>
+                    </div>
+                    <p class="text-gray-400 mb-4">Platform terbaik untuk menemukan guru privat sesuai kebutuhan belajar Anda.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Beranda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Guru</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Mata Pelajaran</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Dukungan</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Bantuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Berlangganan</h3>
+                    <p class="text-gray-400 mb-4">Dapatkan informasi terbaru tentang guru dan promo menarik</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Email Anda" class="px-4 py-2 rounded-l-lg w-full text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-indigo-700 px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 SiswaGuru++. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample teacher data
+        const teachers = [
+            {
+                id: 1,
+                name: "Dr. Ahmad Fauzi",
+                subject: "Matematika",
+                rating: 4.9,
+                reviews: 128,
+                location: "Jakarta",
+                experience: "12 tahun",
+                price: "Rp 150.000/jam",
+                image: "https://randomuser.me/api/portraits/men/32.jpg"
+            },
+            {
+                id: 2,
+                name: "Siti Rahma, M.Pd",
+                subject: "Bahasa Inggris",
+                rating: 4.8,
+                reviews: 95,
+                location: "Bandung",
+                experience: "8 tahun",
+                price: "Rp 120.000/jam",
+                image: "https://randomuser.me/api/portraits/women/44.jpg"
+            },
+            {
+                id: 3,
+                name: "Budi Santoso, S.Si",
+                subject: "Fisika",
+                rating: 4.7,
+                reviews: 76,
+                location: "Surabaya",
+                experience: "6 tahun",
+                price: "Rp 130.000/jam",
+                image: "https://randomuser.me/api/portraits/men/62.jpg"
+            },
+            {
+                id: 4,
+                name: "Dewi Anggraeni",
+                subject: "Kimia",
+                rating: 4.9,
+                reviews: 88,
+                location: "Yogyakarta",
+                experience: "7 tahun",
+                price: "Rp 140.000/jam",
+                image: "https://randomuser.me/api/portraits/women/68.jpg"
+            },
+            {
+                id: 5,
+                name: "Rudi Hartono, M.Pd",
+                subject: "Biologi",
+                rating: 4.6,
+                reviews: 64,
+                location: "Semarang",
+                experience: "5 tahun",
+                price: "Rp 110.000/jam",
+                image: "https://randomuser.me/api/portraits/men/41.jpg"
+            },
+            {
+                id: 6,
+                name: "Linda Suryani",
+                subject: "Ekonomi",
+                rating: 4.8,
+                reviews: 52,
+                location: "Medan",
+                experience: "9 tahun",
+                price: "Rp 125.000/jam",
+                image: "https://randomuser.me/api/portraits/women/26.jpg"
+            }
+        ];
+
+        // Function to render teacher cards
+        function renderTeachers(teacherList) {
+            const container = document.getElementById('teachersContainer');
+            container.innerHTML = '';
+            
+            teacherList.forEach(teacher => {
+                const stars = Array(5).fill().map((_, i) => 
+                    i < Math.floor(teacher.rating) ? 
+                    '<i class="fas fa-star"></i>' : 
+                    (teacher.rating % 1 >= 0.5 && i === Math.floor(teacher.rating)) ? 
+                    '<i class="fas fa-star-half-alt"></i>' : 
+                    '<i class="far fa-star"></i>'
+                ).join('');
+                
+                const card = `
+                    <div class="teacher-card bg-white rounded-2xl overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="${teacher.image}" alt="${teacher.name}" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                                ${teacher.price}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">${teacher.name}</h3>
+                            <div class="flex items-center mb-3">
+                                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm mr-2">${teacher.subject}</span>
+                                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">${teacher.location}</span>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <div class="rating-stars mr-2">
+                                    ${stars}
+                                </div>
+                                <span class="text-gray-600 text-sm">(${teacher.reviews} ulasan)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600"><i class="fas fa-briefcase mr-1"></i> ${teacher.experience}</span>
+                                <button class="bg-primary hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                                    <i class="fas fa-calendar-check mr-1"></i> Jadwalkan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML += card;
+            });
+        }
+
+        // Initial render
+        renderTeachers(teachers);
+
+        // Search functionality
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm.trim() === '') {
+                renderTeachers(teachers);
+                return;
+            }
+            
+            const filteredTeachers = teachers.filter(teacher => 
+                teacher.name.toLowerCase().includes(searchTerm) ||
+                teacher.subject.toLowerCase().includes(searchTerm) ||
+                teacher.location.toLowerCase().includes(searchTerm)
+            );
+            
+            renderTeachers(filteredTeachers);
+        });
+
+        // Quick search tags
+        document.querySelectorAll('.subject-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const subject = this.textContent;
+                document.getElementById('searchInput').value = subject;
+                
+                const filteredTeachers = teachers.filter(teacher => 
+                    teacher.subject.toLowerCase().includes(subject.toLowerCase())
+                );
+                
+                renderTeachers(filteredTeachers);
+            });
+        });
+    </script>
+</body>
+</html>
